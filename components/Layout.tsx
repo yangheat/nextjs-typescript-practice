@@ -1,11 +1,7 @@
+import { PropsWithChildren } from "react";
 import NavBar from "./NavBar";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export default function Layout({ children }: LayoutProps) {
-  console.log("Layout:", children);
+export default function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <NavBar />
