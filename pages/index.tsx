@@ -20,21 +20,21 @@ interface IApiMovieProps {
 
 const API_KEY = "22a2d90859c8d90b696bc7d91d5a419e";
 
-export default function Home() {
-  const [movies, setMovies] = useState<IApiMovieProps[]>();
+export default function Home({ results }: { results: IApiMovieProps[] }) {
+  // const [movies, setMovies] = useState<IApiMovieProps[]>();
 
-  useEffect(() => {
-    (async () => {
-      const { results } = await (await fetch("/api/movies")).json();
-      setMovies(results);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { results } = await (await fetch("/api/movies")).json();
+  //     setMovies(results);
+  //   })();
+  // }, []);
 
   return (
     <div className="container">
       <Seo title="Home" />
-      {!movies && <h4>Loading...</h4>}
-      {movies?.map((movie: IApiMovieProps) => (
+      {/* {!movies && <h4>Loading...</h4>} */}
+      {results?.map((movie: IApiMovieProps) => (
         <div className="movie" key={movie.id}>
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -67,4 +67,15 @@ export default function Home() {
       `}</style>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const { results }: { results: IApiMovieProps[] } = await (
+    await fetch("http://localhost:3000/api/movies")
+  ).json();
+  return {
+    props: {
+      results,
+    },
+  };
 }
